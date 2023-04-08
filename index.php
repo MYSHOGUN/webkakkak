@@ -125,6 +125,7 @@ body {
   font-size: 20px;
   margin-right: 5px;
   flex-wrap: nowrap;
+  color: #ffffff;
 }
 .font {
   font-size: 20px;
@@ -144,9 +145,15 @@ body {
 </style>
 </head>
     <body>
+      <form action='calculate_menu.php' method='get'>
         <div class="header">
           <?php
           session_start();
+          if(isset($_SESSION['role'])){
+            if($_SESSION['role'] == 'a'){
+              header("location:order.php");
+            }
+          }
           if(!isset($_SESSION['id'])){         
           ?>
           <table class="table">
@@ -202,11 +209,11 @@ body {
                 $conn = new PDO("mysql:host=localhost;dbname=food;charset=utf8","root","");
                 $sql = "SELECT * FROM food_menu";
                 foreach($conn->query($sql) as $row){
-                    echo "<button onclick=myFunction() class=font><img src=$row[menu_pic] class=menu ><br>$row[menu_price]</button>";
+                    echo "<button onclick=window.location.href='calculate_menu.php'; class=font name=id id=$row[id]><img src=$row[menu_pic] class=menu><br>$row[menu_price]</button>";
                 }
                 $sql = "SELECT * FROM drink_menu";
                 foreach($conn->query($sql) as $row){
-                    echo "<button onclick=myFunction() class=font><img src=$row[drink_pic] class=menu ><br>$row[drink_price]</button>";
+                    echo "<button onclick=window.location.href='calculate_drink.php'; class=font><img src=$row[drink_pic] class=menu drink_id=$row[id]><br>$row[drink_price]</button>";
                 }
                 $conn = null;
               ?>
@@ -215,5 +222,6 @@ body {
         <div class="footer">
             <h2>Footer</h2>
         </div>
+        </form>
     </body>
 </html>

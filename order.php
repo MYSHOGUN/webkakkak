@@ -125,6 +125,8 @@ body {
   font-size: 20px;
   margin-right: 5px;
   flex-wrap: nowrap;
+  color: #ffffff;
+  font-family: 'Charm', cursive;
 }
 .font {
   font-size: 20px;
