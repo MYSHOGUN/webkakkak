@@ -89,8 +89,8 @@ body {
   background-color: white;
 }
 .main button {
-  padding: 20px;
-  float: center;
+  width: 100px;
+  height: 100px;
 }
 .login {
   background-color: #000;
@@ -145,7 +145,6 @@ body {
 </style>
 </head>
     <body>
-      <form action='calculate_menu.php' method='get'>
         <div class="header">
           <?php
           session_start();
@@ -205,23 +204,33 @@ body {
               <button onclick="myFunction()" class="button">อื่นๆ</button>
             </div>
             <div class="main">
+              <form action="order.php">
+              <table>
+                <tr>
               <?php
                 $conn = new PDO("mysql:host=localhost;dbname=food;charset=utf8","root","");
-                $sql = "SELECT * FROM food_menu";
+                $sql = "SELECT * FROM menu";
                 foreach($conn->query($sql) as $row){
-                    echo "<button onclick=window.location.href='calculate_menu.php'; class=font name=id id=$row[id]><img src=$row[menu_pic] class=menu><br>$row[menu_price]</button>";
+                  if ($row["menu_pic"] != null){
+                    echo "<td><img src = $row[menu_pic] class = menu><br>";
+                  }else{
+                    echo "<td><br>" ;
+                  }
+                  echo  "<input type= checkbox id= $row[id] name= $row[name] value= $row[menu_price]>" ;
+                  echo "$row[name]<br></td>";
+                  if($row["id"] %4 == 0){
+                    echo "</tr><tr>";
+                  }
                 }
-                $sql = "SELECT * FROM drink_menu";
-                foreach($conn->query($sql) as $row){
-                    echo "<button onclick=window.location.href='calculate_drink.php'; class=font><img src=$row[drink_pic] class=menu drink_id=$row[id]><br>$row[drink_price]</button>";
-                }
-                $conn = null;
-              ?>
+                $conn = null; ?>
+                </tr>
+                </table>
+                <center><input type="submit" class = "button" value="Submit"></center>
+              </form>
             </div>
         </div>
         <div class="footer">
             <h2>Footer</h2>
         </div>
-        </form>
     </body>
 </html>
